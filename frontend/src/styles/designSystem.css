@@ -1,0 +1,692 @@
+/* ==========================================================================
+   Classroom Modern Unified Design System & Theme Tokens
+   ========================================================================== */
+
+:root {
+  /* Brand Typography */
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Primary Brand Palette - Light Mode */
+  --color-primary: #7864c8;
+  --color-primary-hover: #6350ae;
+  --color-primary-active: #54419e;
+  --color-primary-light: #f3f0fb;
+  --color-primary-glow: rgba(120, 100, 200, 0.22);
+  --color-gradient-primary: linear-gradient(135deg, #7864c8 0%, #5d4aa7 100%);
+  --color-gradient-hero: linear-gradient(145deg, #6854be 0%, #503da6 50%, #392882 100%);
+
+  /* Neutral Surfaces - Light Mode */
+  --bg-app: #fafbfe;
+  --bg-surface: #ffffff;
+  --bg-surface-subtle: #f4f5fa;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #fafbfe;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+  --bg-backdrop: rgba(18, 20, 30, 0.55);
+
+  /* Typography Colors - Light Mode */
+  --text-primary: #1e1f2b;
+  --text-secondary: #57596a;
+  --text-muted: #797b8d;
+  --text-subtle: #9c9eb0;
+  --text-inverse: #ffffff;
+
+  /* Borders & Dividers - Light Mode */
+  --border-subtle: #e6e8f2;
+  --border-light: #eff0f6;
+  --border-hover: #cfd2e3;
+  --border-focus: #7864c8;
+
+  /* Accent Colors */
+  --accent-mint: #10b981;
+  --accent-mint-bg: #ecfdf5;
+  --accent-amber: #f59e0b;
+  --accent-amber-bg: #fffbeb;
+  --accent-sky: #0284c7;
+  --accent-sky-bg: #f0f9ff;
+  --accent-rose: #e11d48;
+  --accent-rose-bg: #fff1f2;
+
+  /* Elevation & Shadows - Light Mode */
+  --shadow-xs: 0 1px 3px rgba(24, 26, 42, 0.04);
+  --shadow-sm: 0 3px 10px rgba(24, 26, 42, 0.05);
+  --shadow-md: 0 10px 28px rgba(24, 26, 42, 0.07);
+  --shadow-lg: 0 18px 48px rgba(24, 26, 42, 0.09);
+  --shadow-glow: 0 8px 24px rgba(120, 100, 200, 0.28);
+
+  /* Radius Tokens */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-full: 9999px;
+
+  /* Animation Timings */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.16s;
+  --duration-normal: 0.24s;
+  --duration-slow: 0.4s;
+}
+
+/* ==========================================================================
+   Dark Theme Tokens
+   ========================================================================== */
+
+[data-theme='dark'] {
+  /* Primary Brand Palette - Dark Mode */
+  --color-primary: #9482e6;
+  --color-primary-hover: #826ed8;
+  --color-primary-active: #705cc8;
+  --color-primary-light: rgba(148, 130, 230, 0.14);
+  --color-primary-glow: rgba(148, 130, 230, 0.28);
+  --color-gradient-primary: linear-gradient(135deg, #8774dc 0%, #6852be 100%);
+  --color-gradient-hero: linear-gradient(145deg, #4f3ea0 0%, #3a2b7c 50%, #26195c 100%);
+
+  /* Neutral Surfaces - Dark Mode */
+  --bg-app: #0c0d14;
+  --bg-surface: #141520;
+  --bg-surface-subtle: #1a1c2a;
+  --bg-card: #161724;
+  --bg-card-subtle: #1b1d2e;
+  --bg-glass: rgba(20, 21, 32, 0.9);
+  --bg-backdrop: rgba(6, 7, 12, 0.75);
+
+  /* Typography Colors - Dark Mode */
+  --text-primary: #f2f3f8;
+  --text-secondary: #a7aabf;
+  --text-muted: #7c7f96;
+  --text-subtle: #56596e;
+  --text-inverse: #0c0d14;
+
+  /* Borders & Dividers - Dark Mode */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.045);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --border-focus: #9482e6;
+
+  /* Accent Colors - Dark Mode Adjustments */
+  --accent-mint: #34d399;
+  --accent-mint-bg: rgba(52, 211, 153, 0.12);
+  --accent-amber: #fbbf24;
+  --accent-amber-bg: rgba(251, 191, 36, 0.12);
+  --accent-sky: #38bdf8;
+  --accent-sky-bg: rgba(56, 189, 248, 0.12);
+  --accent-rose: #fb7185;
+  --accent-rose-bg: rgba(251, 113, 133, 0.12);
+
+  /* Elevation & Shadows - Dark Mode */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 3px 10px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 8px 26px rgba(148, 130, 230, 0.25);
+}
+
+/* Base Body Styles */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: background-color var(--duration-normal) ease, color var(--duration-normal) ease;
+}
+
+/* Prevent unwanted iOS Safari zoom on mobile inputs */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ==========================================================================
+   Global Dark Mode Overrides for Home, Login & Register
+   ========================================================================== */
+
+[data-theme='dark'] .landing-wrapper {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .landing-navbar {
+  background: var(--bg-glass);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+[data-theme='dark'] .landing-brand {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .landing-nav-link {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .landing-nav-link:hover {
+  color: var(--color-primary);
+}
+
+[data-theme='dark'] .landing-btn-ghost {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .landing-btn-ghost:hover {
+  background: var(--bg-surface-subtle);
+  color: var(--color-primary);
+}
+
+[data-theme='dark'] .landing-mobile-menu {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .hero-heading {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .hero-pill {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .hero-description {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .hero-btn-secondary {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .hero-btn-secondary:hover {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-hover);
+}
+
+[data-theme='dark'] .hero-trust-bar {
+  color: var(--text-muted);
+}
+
+/* Mockup Window in Dark Mode */
+[data-theme='dark'] .mockup-window {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme='dark'] .mockup-topbar {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-light);
+}
+
+[data-theme='dark'] .mockup-address-bar {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .mockup-body {
+  background: var(--bg-app);
+}
+
+[data-theme='dark'] .mockup-sidebar {
+  background: var(--bg-surface);
+  border-color: var(--border-light);
+}
+
+[data-theme='dark'] .mockup-side-logo {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .mockup-side-item {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .mockup-side-item.active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+[data-theme='dark'] .mockup-side-streak-box {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+}
+
+[data-theme='dark'] .mockup-stat-card {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .mockup-stat-value {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .mockup-lesson-card,
+[data-theme='dark'] .mockup-quiz-preview {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .mockup-lesson-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .mockup-quiz-q {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .mockup-quiz-opt {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .mockup-floating-badge {
+  background: rgba(20, 21, 32, 0.95);
+  border-color: var(--border-subtle);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .floating-text-primary {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .floating-text-subtle {
+  color: var(--text-muted);
+}
+
+/* Metrics Bar in Dark Mode */
+[data-theme='dark'] .landing-metrics-bar {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .metric-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .metric-caption {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .metric-item::after {
+  background: var(--border-subtle);
+}
+
+/* About & Features in Dark Mode */
+[data-theme='dark'] .section-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .section-description {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .about-story h3 {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .about-story p {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .pillar-card {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .pillar-content h4 {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .pillar-content p {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .feature-card {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .feature-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .feature-text {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .feature-tag {
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+/* Benefits & FAQ in Dark Mode */
+[data-theme='dark'] .benefit-card {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .benefit-card-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .benefit-card-desc {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .benefit-check-item {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .footer-col-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .footer-links a {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .footer-links a:hover {
+  color: var(--color-primary);
+}
+
+[data-theme='dark'] .landing-footer {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .footer-bottom {
+  border-color: var(--border-light);
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .footer-back-to-top {
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Dark Mode Overrides for Auth Page (Login & Register)
+   ========================================================================== */
+
+[data-theme='dark'] .auth-page-root {
+  background-color: var(--bg-app);
+}
+
+[data-theme='dark'] .auth-form-pane {
+  background-color: var(--bg-app);
+}
+
+[data-theme='dark'] .auth-card-wrapper {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='dark'] .auth-card-top-icon {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+[data-theme='dark'] .auth-card-heading {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .auth-card-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-field-label {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-input-wrapper {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .auth-text-input,
+[data-theme='dark'] .auth-select-input {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .auth-text-input::placeholder {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .auth-demo-pill {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-remember-label {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-switch-box {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .auth-card-footer {
+  border-color: var(--border-light);
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .forgot-modal-card {
+  background: var(--bg-card);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--border-subtle);
+}
+
+[data-theme='dark'] .forgot-modal-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .forgot-modal-desc {
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Dark Mode Overrides for Semester Subjects Section
+   ========================================================================== */
+
+[data-theme='dark'] .semester-section-root {
+  background-color: var(--bg-app);
+}
+
+[data-theme='dark'] .university-badge {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .semester-main-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .semester-main-description {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .semester-quick-stats {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .quick-stat-text {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .quick-stat-divider {
+  background-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .sem-nav-tab {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .sem-nav-tab:hover {
+  background: var(--bg-surface-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .sem-nav-tab.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+[data-theme='dark'] .sem-tab-count {
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .semester-search-input {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .semester-card-section {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .semester-header-box {
+  border-color: var(--border-light);
+}
+
+[data-theme='dark'] .semester-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .semester-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .semester-category-pill {
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .semester-subject-count-pill {
+  border-color: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .subject-card-item {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+[data-theme='dark'] .subject-card-item:hover {
+  background: var(--bg-card);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='dark'] .subject-badge-code {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .subject-badge-category {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .subject-card-name {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .subject-card-desc {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .subject-card-footer {
+  border-color: var(--border-light);
+}
+
+[data-theme='dark'] .subject-card-hint {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .subject-modal-card {
+  background: var(--bg-card);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme='dark'] .subject-modal-close {
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .subject-modal-close:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .subject-modal-header,
+[data-theme='dark'] .subject-modal-footer {
+  border-color: var(--border-light);
+}
+
+[data-theme='dark'] .subject-modal-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .subject-modal-code {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .subject-modal-description {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .subject-modal-topic-item {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .subject-modal-institution-note {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .subject-modal-btn-secondary {
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .subject-modal-btn-secondary:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
