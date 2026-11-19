@@ -20,6 +20,8 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem('classroom-token');
       localStorage.removeItem('classroom-user');
+      localStorage.removeItem('bca_completed_lessons');
+      localStorage.removeItem('bca_in_progress_lesson');
     },
     updateUser(state, action) {
       state.user = action.payload;

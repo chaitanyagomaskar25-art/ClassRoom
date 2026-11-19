@@ -1,0 +1,1017 @@
+.career-hub-page {
+  padding: 1.5rem 2rem 4rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Header & Tabs Navigation */
+.career-hub-header {
+  margin-bottom: 2rem;
+}
+
+.career-hub-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 0.5rem;
+}
+
+.career-hub-subtitle {
+  color: var(--text-secondary, #64748b);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.career-tabs-nav {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--card-bg, #ffffff);
+  padding: 0.4rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  margin-top: 1.5rem;
+  overflow-x: auto;
+}
+
+.career-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #64748b);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.career-tab-btn:hover {
+  color: var(--text-primary, #0f172a);
+  background: var(--hover-bg, #f1f5f9);
+}
+
+.career-tab-btn.active {
+  background: var(--primary, #4f46e5);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+}
+
+/* Common loading & empty styles */
+.career-loading-box,
+.career-error-box {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.career-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(79, 70, 229, 0.2);
+  border-top-color: var(--primary, #4f46e5);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   TAB 1: CAREER GUIDANCE & ASSESSMENT
+   ========================================================= */
+.assessment-hero-card {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 1rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.assessment-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.assessment-match-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+}
+
+.top-career-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin: 0.5rem 0;
+}
+
+.top-career-desc {
+  color: var(--text-secondary, #334155);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.career-strengths-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.career-pill-tag {
+  font-size: 0.775rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.4rem;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  font-weight: 600;
+}
+
+.career-missing-tag {
+  font-size: 0.775rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.4rem;
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-weight: 600;
+}
+
+.career-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.career-path-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.career-path-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.path-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.path-card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.path-salary-band {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.35rem;
+}
+
+.path-match-bar-wrap {
+  margin-bottom: 1rem;
+}
+
+.path-match-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 0.3rem;
+}
+
+.path-match-track {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.path-match-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4f46e5, #06b6d4);
+  border-radius: 3px;
+}
+
+.path-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #64748b);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.path-section-mini {
+  margin-bottom: 0.9rem;
+}
+
+.path-mini-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-secondary, #64748b);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.path-skills-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.path-skill-chip {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.35rem;
+  background: var(--hover-bg, #f1f5f9);
+  color: var(--text-primary, #334155);
+  font-weight: 500;
+}
+
+/* =========================================================
+   TAB 2: RESUME BUILDER
+   ========================================================= */
+.resume-builder-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resume-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 1rem 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.resume-template-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.template-pill {
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-secondary, #64748b);
+  transition: all 0.2s ease;
+}
+
+.template-pill.active {
+  border-color: var(--primary, #4f46e5);
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--primary, #4f46e5);
+}
+
+.resume-actions-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-print-resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.55rem;
+  background: var(--primary, #4f46e5);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+  transition: background 0.2s ease;
+}
+
+.btn-print-resume:hover {
+  background: #4338ca;
+}
+
+.btn-toggle-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.55rem;
+  background: transparent;
+  border: 1px solid var(--border-color, #cbd5e1);
+  color: var(--text-primary, #1e293b);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Resume Paper Preview */
+.resume-paper-wrap {
+  display: flex;
+  justify-content: center;
+  background: #525659;
+  padding: 2.5rem 1rem;
+  border-radius: 0.85rem;
+  overflow-x: auto;
+}
+
+.resume-sheet {
+  width: 8.5in;
+  min-height: 11in;
+  background: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  padding: 0.65in;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.45;
+}
+
+/* Template 1: Modern Tech */
+.resume-modern .res-header {
+  border-bottom: 2px solid #4f46e5;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.15rem;
+}
+
+.resume-modern .res-name {
+  font-size: 19pt;
+  font-weight: 800;
+  color: #1e1b4b;
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.01em;
+}
+
+.resume-modern .res-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 8.5pt;
+  color: #475569;
+}
+
+.resume-modern .res-section {
+  margin-bottom: 1.15rem;
+}
+
+.resume-modern .res-sec-title {
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #4f46e5;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* Template 2: Minimalist Classic (ATS) */
+.resume-classic {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.resume-classic .res-header {
+  text-align: center;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.resume-classic .res-name {
+  font-size: 20pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 0.3rem;
+  color: #000;
+}
+
+.resume-classic .res-contact-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 9pt;
+  color: #111;
+}
+
+.resume-classic .res-section {
+  margin-bottom: 1.1rem;
+}
+
+.resume-classic .res-sec-title {
+  font-size: 11.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.15rem;
+  margin-bottom: 0.45rem;
+  color: #000;
+}
+
+/* Template 3: Executive Grid */
+.resume-executive {
+  border-left: 6px solid #0f172a;
+  padding-left: 0.5in;
+}
+
+.resume-executive .res-header {
+  margin-bottom: 1.25rem;
+}
+
+.resume-executive .res-name {
+  font-size: 21pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.resume-executive .res-sec-title {
+  font-size: 10.5pt;
+  font-weight: 800;
+  color: #0f172a;
+  background: #f1f5f9;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Shared Resume Body Items */
+.res-item {
+  margin-bottom: 0.75rem;
+}
+
+.res-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 700;
+}
+
+.res-item-title {
+  font-size: 9.5pt;
+  color: #0f172a;
+}
+
+.res-item-meta {
+  font-size: 8.5pt;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.res-item-sub {
+  font-size: 8.75pt;
+  color: #334155;
+  margin-bottom: 0.2rem;
+}
+
+.res-bullets {
+  margin: 0.25rem 0 0 1.25rem;
+  padding: 0;
+  font-size: 8.75pt;
+  color: #334155;
+}
+
+.res-bullets li {
+  margin-bottom: 0.2rem;
+}
+
+.res-editable-input {
+  width: 100%;
+  padding: 0.25rem 0.4rem;
+  border: 1px dashed #94a3b8;
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: inherit;
+  box-sizing: border-box;
+}
+
+.res-editable-textarea {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: 1px dashed #94a3b8;
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: inherit;
+  resize: vertical;
+  min-height: 60px;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TAB 3: INTERVIEW PREPARATION & SIMULATOR
+   ========================================================= */
+.interview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.interview-filter-bar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 1rem 1.25rem;
+}
+
+.interview-filter-select {
+  padding: 0.55rem 0.95rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: var(--card-bg, #ffffff);
+  color: var(--text-primary, #0f172a);
+  font-size: 0.875rem;
+}
+
+.interview-split-view {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 960px) {
+  .interview-split-view {
+    grid-template-columns: 1fr;
+  }
+}
+
+.interview-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 650px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.interview-q-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.interview-q-card:hover {
+  border-color: var(--primary, #4f46e5);
+}
+
+.interview-q-card.selected {
+  border-color: var(--primary, #4f46e5);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+.q-card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.q-category-tag {
+  font-size: 0.725rem;
+  color: var(--primary, #4f46e5);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.q-diff-badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+.diff-beginner { background: #dcfce7; color: #15803d; }
+.diff-intermediate { background: #fef3c7; color: #b45309; }
+.diff-advanced { background: #fee2e2; color: #b91c1c; }
+
+.q-card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Simulator Panel */
+.interview-simulator-panel {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sim-q-header {
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  padding-bottom: 1rem;
+}
+
+.sim-q-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin: 0.35rem 0 0;
+}
+
+.sim-textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 0.85rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 0.65rem;
+  font-size: 0.925rem;
+  line-height: 1.5;
+  color: var(--text-primary, #0f172a);
+  background: var(--card-bg, #ffffff);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.sim-textarea:focus {
+  outline: none;
+  border-color: var(--primary, #4f46e5);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.sim-btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary, #4f46e5);
+  color: white;
+  border: none;
+  border-radius: 0.65rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.sim-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Evaluation Box */
+.eval-result-card {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.85rem;
+  padding: 1.5rem;
+}
+
+.eval-score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.eval-score-badge {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #4f46e5;
+  background: #ede9fe;
+  padding: 0.35rem 0.9rem;
+  border-radius: 0.5rem;
+}
+
+.eval-feedback-text {
+  font-size: 0.925rem;
+  color: #334155;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.rubric-points-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .rubric-points-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rubric-col h5 {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.model-answer-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.65rem;
+  padding: 1rem;
+}
+
+.model-answer-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #166534;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 0 0 0.4rem;
+}
+
+.model-answer-content {
+  font-size: 0.875rem;
+  color: #14532d;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* =========================================================
+   TAB 4: PLACEMENT DASHBOARD & COMPANY PACKS
+   ========================================================= */
+.placement-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.placement-aptitude-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.aptitude-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+}
+
+.aptitude-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.aptitude-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary, #0f172a);
+}
+
+.aptitude-count {
+  font-size: 0.775rem;
+  color: var(--primary, #4f46e5);
+  font-weight: 700;
+  background: rgba(79, 70, 229, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.35rem;
+}
+
+.aptitude-desc {
+  font-size: 0.825rem;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 0.75rem;
+}
+
+/* Company Packs */
+.company-packs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.company-pack-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.company-pack-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.company-name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+}
+
+.company-pkg {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.4rem;
+}
+
+.company-role {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary, #4f46e5);
+  margin-bottom: 0.75rem;
+}
+
+.rounds-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+
+.round-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.85rem;
+}
+
+.round-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary, #4f46e5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.round-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.round-name {
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.round-detail {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.775rem;
+}
+
+/* Roadmaps */
+.roadmaps-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+}
+
+.roadmap-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.roadmap-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 0.35rem;
+}
+
+.roadmap-weeks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.roadmap-week-box {
+  background: var(--hover-bg, #f8fafc);
+  border-left: 3px solid var(--primary, #4f46e5);
+  padding: 0.75rem 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.week-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary, #4f46e5);
+  text-transform: uppercase;
+}
+
+.week-focus {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin: 0.2rem 0;
+}
+
+.week-tasks {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+  line-height: 1.45;
+}
+
+/* =========================================================
+   PRINT STYLES FOR RESUME EXPORT
+   ========================================================= */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .resume-paper-wrap,
+  .resume-paper-wrap * {
+    visibility: visible;
+  }
+  
+  .resume-paper-wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+  }
+  
+  .resume-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .btn-print-resume,
+  .career-tabs-nav,
+  .career-hub-header,
+  .resume-toolbar {
+    display: none !important;
+  }
+}

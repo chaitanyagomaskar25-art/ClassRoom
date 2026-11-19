@@ -1,0 +1,174 @@
+/* ==========================================================================
+   Project-Based Learning Module Styles
+   ========================================================================== */
+
+.projects-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.projects-hero {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  border-radius: 20px;
+  padding: 32px 36px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.25);
+}
+
+.projects-hero-info h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.projects-hero-info p {
+  font-size: 14px;
+  color: #e0f2fe;
+  margin: 0;
+  max-width: 620px;
+}
+
+/* Category Filter Bar */
+.projects-filter-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background: var(--color-card, #1e293b);
+  border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.08));
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(14, 165, 233, 0.4);
+}
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.project-category-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.project-status-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
+
+.project-status-pill.completed {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.project-status-pill.in_progress {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.project-status-pill.planning {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+}
+
+/* Tech Stack Tags */
+.tech-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tech-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Milestones Progress */
+.milestones-strip {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.milestone-item.done {
+  color: #34d399;
+}
+
+/* Project Links */
+.project-links-row {
+  display: flex;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: auto;
+}
+
+.project-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #38bdf8;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.project-link-btn:hover {
+  opacity: 0.8;
+}

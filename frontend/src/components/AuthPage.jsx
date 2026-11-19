@@ -20,6 +20,7 @@ import {
   Sparkles,
   User,
   UserPlus,
+  Users,
   X
 } from 'lucide-react';
 import { api, getErrorMessage, unwrap } from '../services/api.js';
@@ -28,13 +29,16 @@ import ThemeToggle from './ThemeToggle.jsx';
 import './AuthPage.css';
 
 export default function AuthPage({ register = false }) {
+  const [selectedRole, setSelectedRole] = useState('student'); // 'student' | 'mentor' | 'scrum'
   const [form, setForm] = useState({
     name: '',
     email: localStorage.getItem('classroom_remembered_email') || '',
     password: '',
     confirmPassword: '',
-    semester: 1,
+    semester: '',
     enrollmentNumber: '',
+    department: 'Computer Science & Applications',
+    programTrack: 'BCA Agile Sprint Cohort',
     agreeTerms: true
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -50,8 +54,18 @@ export default function AuthPage({ register = false }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
+  const currentUser = useSelector((state) => state.auth.user) || {};
 
-  if (token) return <Navigate to="/dashboard" replace />;
+  if (token) {
+    const role = currentUser.role || 'student';
+    if (role === 'scrum' || role === 'mentor' || role === 'senior_mentor') {
+      return <Navigate to="/mentor" replace />;
+    }
+    if (role === 'admin' || role === 'super_admin') {
+      return <Navigate to="/admin" replace />;
+    }
+    return <Navigate to="/dashboard" replace />;
+  }
 
   async function submit(event) {
     event.preventDefault();
@@ -63,6 +77,12 @@ export default function AuthPage({ register = false }) {
       if (!form.name.trim()) {
         setError('Please enter your full name.');
         return;
+      }
+      if (selectedRole === 'student') {
+        if (!form.semester || Number(form.semester) < 1 || Number(form.semester) > 6) {
+          setError('Please choose your enrolled semester (Semester 1 to 6) to proceed.');
+          return;
+        }
       }
       if (form.password.length < 8) {
         setError('Password must be at least 8 characters long.');
@@ -86,8 +106,27 @@ export default function AuthPage({ register = false }) {
             name: form.name.trim(),
             email: form.email.trim().toLowerCase(),
             password: form.password,
-            semester: Number(form.semester) || 1,
-            ...(form.enrollmentNumber?.trim() ? { enrollmentNumber: form.enrollmentNumber.trim() } : {})
+            role: selectedRole,
+            ...(selectedRole === 'student'
+              ? {
+                  semester: Number(form.semester),
+                  ...(form.enrollmentNumber?.trim() ? { enrollmentNumber: form.enrollmentNumber.trim() } : {})
+                }
+              : {}),
+            ...(selectedRole === 'mentor'
+              ? {
+                  institution: form.department?.trim() || 'Computer Science & Applications',
+                  program: 'BCA (Hons. with Research)',
+                  ...(form.enrollmentNumber?.trim() ? { enrollmentNumber: form.enrollmentNumber.trim() } : {})
+                }
+              : {}),
+            ...(selectedRole === 'scrum'
+              ? {
+                  program: form.programTrack?.trim() || 'BCA Agile Sprint Cohort',
+                  institution: form.department?.trim() || 'Computer Science & Applications',
+                  ...(form.enrollmentNumber?.trim() ? { enrollmentNumber: form.enrollmentNumber.trim() } : {})
+                }
+              : {})
           }
         : {
             email: form.email.trim().toLowerCase(),
@@ -109,9 +148,28 @@ export default function AuthPage({ register = false }) {
       }
 
       dispatch(setCredentials(result));
-      setSuccessMessage(register ? 'Student account created successfully! Redirecting to workspace…' : 'Signed in successfully! Redirecting to workspace…');
+      const userRole = result.user?.role || selectedRole;
+      const roleTitle =
+        userRole === 'scrum'
+          ? 'Scrum Master'
+          : userRole === 'mentor' || userRole === 'senior_mentor'
+          ? 'Teacher / Mentor'
+          : 'Student';
+
+      setSuccessMessage(
+        register
+          ? `${roleTitle} account created successfully! Redirecting…`
+          : `Signed in as ${roleTitle}! Redirecting…`
+      );
+
       setTimeout(() => {
-        navigate('/dashboard', { replace: true });
+        if (userRole === 'scrum' || userRole === 'mentor' || userRole === 'senior_mentor') {
+          navigate('/mentor', { replace: true });
+        } else if (userRole === 'admin' || userRole === 'super_admin') {
+          navigate('/admin', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
       }, 700);
     } catch (requestError) {
       setError(getErrorMessage(requestError));
@@ -121,21 +179,35 @@ export default function AuthPage({ register = false }) {
   }
 
   const fillDemoStudent = () => {
+    setSelectedRole('student');
     setForm((prev) => ({
       ...prev,
       name: 'Aarav Student',
       email: 'student@demo.local',
-      password: 'Student123!'
+      password: 'Student123!',
+      semester: 3
     }));
     setError('');
   };
 
   const fillDemoMentor = () => {
+    setSelectedRole('mentor');
     setForm((prev) => ({
       ...prev,
       name: 'Asha Mentor',
       email: 'mentor@demo.local',
       password: 'Mentor123!'
+    }));
+    setError('');
+  };
+
+  const fillDemoScrum = () => {
+    setSelectedRole('scrum');
+    setForm((prev) => ({
+      ...prev,
+      name: 'Priya Sharma (Scrum Lead)',
+      email: 'scrum@demo.local',
+      password: 'Scrum123!'
     }));
     setError('');
   };
@@ -162,7 +234,7 @@ export default function AuthPage({ register = false }) {
         <div className="auth-hero-copy">
           <div className="auth-eyebrow-pill">
             <Sparkles size={13} />
-            <span>Eternal University · BCA Platform</span>
+            <span>BCA Student Success Platform</span>
           </div>
 
           <h1 className="auth-hero-title">
@@ -175,7 +247,7 @@ export default function AuthPage({ register = false }) {
 
           <p className="auth-hero-desc">
             {register ? (
-              <>Join Eternal University's specialized learning environment designed for BCA Hons. with Research students. Access verified semester curricula, interactive notes, and instant quizzes.</>
+              <>Join the specialized learning environment designed for BCA Hons. with Research students. Access verified semester curricula, interactive notes, and instant quizzes.</>
             ) : (
               <>Track your study streaks, master semester syllabi, review quiz scores, and stay connected with faculty mentors.</>
             )}
@@ -261,7 +333,7 @@ export default function AuthPage({ register = false }) {
         <div className="auth-hero-footer">
           <div className="auth-security-tag">
             <ShieldCheck size={16} />
-            <span>Official Eternal University Student Success System</span>
+            <span>Official Student Success System</span>
           </div>
           <span>Semesters 1—6</span>
         </div>
@@ -291,30 +363,115 @@ export default function AuthPage({ register = false }) {
 
           <div className="auth-card-wrapper">
             <div className="auth-card-top-icon">
-              {register ? <UserPlus size={24} /> : <GraduationCap size={24} />}
+              {selectedRole === 'scrum' ? (
+                <ShieldCheck size={24} />
+              ) : selectedRole === 'mentor' ? (
+                <Users size={24} />
+              ) : register ? (
+                <UserPlus size={24} />
+              ) : (
+                <GraduationCap size={24} />
+              )}
+            </div>
+
+            {/* 3-Role Selection Tabs (Student / Teacher-Mentor / Scrum Master) */}
+            <div className="auth-role-selector-wrap">
+              <div className="auth-role-tabs">
+                <button
+                  type="button"
+                  className={`auth-role-tab-btn ${selectedRole === 'student' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('student')}
+                >
+                  <GraduationCap size={16} />
+                  <span>Student</span>
+                </button>
+                <button
+                  type="button"
+                  className={`auth-role-tab-btn role-mentor ${selectedRole === 'mentor' ? 'active role-mentor' : ''}`}
+                  onClick={() => setSelectedRole('mentor')}
+                >
+                  <Users size={16} />
+                  <span>Teacher / Mentor</span>
+                </button>
+                <button
+                  type="button"
+                  className={`auth-role-tab-btn role-scrum ${selectedRole === 'scrum' ? 'active role-scrum' : ''}`}
+                  onClick={() => setSelectedRole('scrum')}
+                >
+                  <ShieldCheck size={16} />
+                  <span>Scrum Master</span>
+                </button>
+              </div>
+
+              <div
+                className={`auth-role-badge-desc ${
+                  selectedRole === 'mentor'
+                    ? 'role-mentor'
+                    : selectedRole === 'scrum'
+                    ? 'role-scrum'
+                    : ''
+                }`}
+              >
+                <Sparkles size={14} />
+                <span>
+                  {selectedRole === 'student' &&
+                    'Student: View semester coursework, submit assignments & play quizzes'}
+                  {selectedRole === 'mentor' &&
+                    'Teacher / Mentor: View all students, create quizzes & assignments'}
+                  {selectedRole === 'scrum' &&
+                    'Scrum Master: Oversee all mentors & all students, quizzes & assignments'}
+                </span>
+              </div>
             </div>
 
             <h2 className="auth-card-heading">
-              {register ? 'Create your student account' : 'Sign in to your space'}
+              {register
+                ? selectedRole === 'scrum'
+                  ? 'Register as Scrum Master'
+                  : selectedRole === 'mentor'
+                  ? 'Register as Teacher / Mentor'
+                  : 'Register as Student'
+                : selectedRole === 'scrum'
+                ? 'Sign in as Scrum Master'
+                : selectedRole === 'mentor'
+                ? 'Sign in as Teacher / Mentor'
+                : 'Sign in to your space'}
             </h2>
             <p className="auth-card-subtitle">
               {register
-                ? 'Fill in your academic profile details to get immediate access to your curriculum.'
-                : 'Enter your credentials to continue your learning journey.'}
+                ? selectedRole === 'scrum'
+                  ? 'Set up your Scrum account to supervise mentors, cohorts, and academic sprints.'
+                  : selectedRole === 'mentor'
+                  ? 'Set up your mentor account to monitor students, publish quizzes, and grade assignments.'
+                  : 'Fill in your academic profile to get immediate access to your semester curriculum.'
+                : 'Enter your credentials to continue to your dashboard.'}
             </p>
 
             {/* Quick Demo Credentials Autofill Pill (Login Only) */}
             {!register && (
               <div className="auth-demo-pill">
                 <span>
-                  Quick Demo: <strong>student@demo.local</strong>
+                  Demo Credentials:
                 </span>
-                <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                   <button type="button" className="auth-demo-btn" onClick={fillDemoStudent}>
                     Student
                   </button>
-                  <button type="button" className="auth-demo-btn" style={{ background: '#059669' }} onClick={fillDemoMentor}>
-                    Mentor
+                  <button
+                    type="button"
+                    className="auth-demo-btn"
+                    style={{ background: '#059669' }}
+                    onClick={fillDemoMentor}
+                  >
+                    Teacher
+                  </button>
+                  <button
+                    type="button"
+                    className="auth-demo-btn"
+                    style={{ background: '#4f46e5' }}
+                    onClick={fillDemoScrum}
+                  >
+                    Scrum Master
                   </button>
                 </div>
               </div>
@@ -335,7 +492,13 @@ export default function AuthPage({ register = false }) {
                       type="text"
                       required
                       autoComplete="name"
-                      placeholder="e.g. Aarav Sharma"
+                      placeholder={
+                        selectedRole === 'scrum'
+                          ? 'e.g. Priya Sharma (Scrum Lead)'
+                          : selectedRole === 'mentor'
+                          ? 'e.g. Dr. Rajesh Kumar (Faculty)'
+                          : 'e.g. Aarav Sharma'
+                      }
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="auth-text-input"
@@ -356,7 +519,15 @@ export default function AuthPage({ register = false }) {
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder={register ? "e.g. yourname@eternaluniversity.edu.in" : "student@demo.local or email"}
+                    placeholder={
+                      register
+                        ? 'e.g. yourname@university.edu'
+                        : selectedRole === 'scrum'
+                        ? 'scrum@demo.local'
+                        : selectedRole === 'mentor'
+                        ? 'mentor@demo.local'
+                        : 'student@demo.local'
+                    }
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     className="auth-text-input"
@@ -364,27 +535,33 @@ export default function AuthPage({ register = false }) {
                 </div>
               </div>
 
-              {/* Semester & Student ID Row (Register only) */}
-              {register && (
+              {/* Role-Specific Fields (Register only) */}
+              {register && selectedRole === 'student' && (
                 <div className="auth-fields-row">
                   <div className="auth-field-group">
                     <label className="auth-field-label" htmlFor="register-semester">
-                      Current Semester *
+                      Choose Your Semester *
                     </label>
                     <div className="auth-input-wrapper">
                       <GraduationCap size={18} className="auth-field-icon" />
                       <select
                         id="register-semester"
                         value={form.semester}
-                        onChange={(e) => setForm({ ...form, semester: Number(e.target.value) })}
+                        onChange={(e) =>
+                          setForm({ ...form, semester: e.target.value ? Number(e.target.value) : '' })
+                        }
                         className="auth-select-input"
+                        required
                       >
-                        <option value={1}>Semester 1 (Foundations)</option>
-                        <option value={2}>Semester 2 (Web Dev & AI)</option>
-                        <option value={3}>Semester 3 (React & Core)</option>
-                        <option value={4}>Semester 4 (Backend & Cloud)</option>
-                        <option value={5}>Semester 5 (AI & Capstone)</option>
-                        <option value={6}>Semester 6 (Data Science)</option>
+                        <option value="" disabled>
+                          -- Select Your Semester (1 to 6) * --
+                        </option>
+                        <option value={1}>Semester 1 (Computing Foundations &amp; Core)</option>
+                        <option value={2}>Semester 2 (Web Dev, OOP &amp; Systems)</option>
+                        <option value={3}>Semester 3 (React, Data Structures &amp; Cloud)</option>
+                        <option value={4}>Semester 4 (Backend, Distributed DB &amp; Cloud)</option>
+                        <option value={5}>Semester 5 (Artificial Intelligence &amp; Capstone)</option>
+                        <option value={6}>Semester 6 (Advanced Analytics &amp; Research)</option>
                       </select>
                       <ChevronDown size={15} style={{ color: '#9395a5', pointerEvents: 'none' }} />
                     </div>
@@ -400,6 +577,84 @@ export default function AuthPage({ register = false }) {
                         id="register-enrollment"
                         type="text"
                         placeholder="e.g. BCA2026001 (optional)"
+                        value={form.enrollmentNumber}
+                        onChange={(e) => setForm({ ...form, enrollmentNumber: e.target.value })}
+                        className="auth-text-input"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {register && selectedRole === 'mentor' && (
+                <div className="auth-fields-row">
+                  <div className="auth-field-group">
+                    <label className="auth-field-label" htmlFor="mentor-department">
+                      Department / Specialization *
+                    </label>
+                    <div className="auth-input-wrapper">
+                      <Users size={17} className="auth-field-icon" />
+                      <input
+                        id="mentor-department"
+                        type="text"
+                        required
+                        placeholder="e.g. Computer Science &amp; Applications"
+                        value={form.department}
+                        onChange={(e) => setForm({ ...form, department: e.target.value })}
+                        className="auth-text-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="auth-field-group">
+                    <label className="auth-field-label" htmlFor="mentor-faculty-id">
+                      Faculty / Staff ID
+                    </label>
+                    <div className="auth-input-wrapper">
+                      <Hash size={17} className="auth-field-icon" />
+                      <input
+                        id="mentor-faculty-id"
+                        type="text"
+                        placeholder="e.g. FAC2026-CS (optional)"
+                        value={form.enrollmentNumber}
+                        onChange={(e) => setForm({ ...form, enrollmentNumber: e.target.value })}
+                        className="auth-text-input"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {register && selectedRole === 'scrum' && (
+                <div className="auth-fields-row">
+                  <div className="auth-field-group">
+                    <label className="auth-field-label" htmlFor="scrum-program">
+                      Program / Sprint Cohort *
+                    </label>
+                    <div className="auth-input-wrapper">
+                      <ShieldCheck size={17} className="auth-field-icon" />
+                      <input
+                        id="scrum-program"
+                        type="text"
+                        required
+                        placeholder="e.g. BCA Agile Sprint Cohort"
+                        value={form.programTrack}
+                        onChange={(e) => setForm({ ...form, programTrack: e.target.value })}
+                        className="auth-text-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="auth-field-group">
+                    <label className="auth-field-label" htmlFor="scrum-id">
+                      Scrum Master ID
+                    </label>
+                    <div className="auth-input-wrapper">
+                      <Hash size={17} className="auth-field-icon" />
+                      <input
+                        id="scrum-id"
+                        type="text"
+                        placeholder="e.g. SCRUM-BCA-01 (optional)"
                         value={form.enrollmentNumber}
                         onChange={(e) => setForm({ ...form, enrollmentNumber: e.target.value })}
                         className="auth-text-input"
@@ -487,7 +742,7 @@ export default function AuthPage({ register = false }) {
                     className="auth-checkbox"
                   />
                   <span style={{ fontSize: '12px', lineHeight: '1.4' }}>
-                    I agree to the Eternal University academic integrity &amp; student guidelines.
+                    I agree to the academic integrity &amp; student guidelines.
                   </span>
                 </label>
               )}
@@ -585,7 +840,7 @@ export default function AuthPage({ register = false }) {
 
             <div className="auth-card-footer">
               <ShieldCheck size={14} color="#10b981" />
-              <span>Protected by institutional encryption · Eternal University</span>
+              <span>Protected by institutional encryption</span>
             </div>
           </div>
         </div>

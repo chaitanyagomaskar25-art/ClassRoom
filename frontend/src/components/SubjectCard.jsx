@@ -1,15 +1,30 @@
-import { ChevronRight, Hash } from 'lucide-react';
+import { BookOpen, ChevronRight, FileText, GraduationCap, Hash } from 'lucide-react';
 import SubjectIcon from './SubjectIcon.jsx';
 
-export default function SubjectCard({ subject, semester, colors, onSelect }) {
+export default function SubjectCard({ subject, semester, colors, onSelect, onStudy }) {
+  const nature = subject.nature || subject.category;
+  const l = subject.l ?? subject.hours?.l ?? 0;
+  const t = subject.t ?? subject.hours?.t ?? 0;
+  const p = subject.p ?? subject.hours?.p ?? 0;
+  const credits = subject.credits || 4;
+
+  const handleStudy = (e) => {
+    e.stopPropagation();
+    if (onStudy) {
+      onStudy(subject);
+    } else {
+      onSelect(subject);
+    }
+  };
+
   return (
     <article
       className="subject-card-item"
       onClick={() => onSelect(subject)}
       style={{
-        '--card-accent': colors.primary,
-        '--card-accent-light': colors.light,
-        '--card-accent-border': colors.border,
+        '--card-accent': colors?.primary || '#6366f1',
+        '--card-accent-light': colors?.light || 'rgba(99, 102, 241, 0.1)',
+        '--card-accent-border': colors?.border || 'rgba(99, 102, 241, 0.25)',
       }}
       tabIndex={0}
       role="button"
@@ -25,24 +40,24 @@ export default function SubjectCard({ subject, semester, colors, onSelect }) {
         <div
           className="subject-icon-box"
           style={{
-            backgroundColor: colors.light,
-            color: colors.primary,
-            borderColor: colors.border
+            backgroundColor: colors?.light || '#eef2ff',
+            color: colors?.primary || '#6366f1',
+            borderColor: colors?.border || '#c7d2fe'
           }}
         >
-          <SubjectIcon name={subject.iconName} size={20} />
+          <SubjectIcon iconName={subject.iconName} name={subject.iconName} size={20} />
         </div>
 
         <div className="subject-card-badges">
           {subject.code && (
-            <span className="subject-badge-code" title="Subject Code">
+            <span className="subject-badge-code" title="Course Code">
               <Hash size={11} />
               {subject.code}
             </span>
           )}
-          {subject.category && (
-            <span className="subject-badge-category">
-              {subject.category}
+          {nature && (
+            <span className="subject-badge-nature" title="Nature of Course">
+              {nature}
             </span>
           )}
         </div>
@@ -57,12 +72,34 @@ export default function SubjectCard({ subject, semester, colors, onSelect }) {
         </p>
       </div>
 
+      {/* Course Structure Metadata Strip (L-T-P & Credits) */}
+      <div className="subject-card-metrics">
+        <div className="subject-metric-pill" title="Lecture - Tutorial - Practical hours">
+          <span className="metric-tag">LTP</span>
+          <span className="metric-num">{l}-{t}-{p}</span>
+        </div>
+        <div className="subject-metric-pill credits" title="Course Credits">
+          <GraduationCap size={12} />
+          <span className="metric-num">{credits} Credits</span>
+        </div>
+      </div>
+
       <div className="subject-card-footer">
-        <span className="subject-card-hint">
-          Click for modules
-        </span>
-        <span className="subject-card-arrow" style={{ color: colors.primary }}>
-          <ChevronRight size={15} />
+        <button
+          type="button"
+          className="subject-card-study-btn"
+          onClick={handleStudy}
+          title={`Start studying ${subject.name}`}
+          aria-label={`Study ${subject.name}`}
+        >
+          <BookOpen size={13} />
+          <span>Study</span>
+        </button>
+
+        <span className="subject-card-view-btn">
+          <FileText size={13} />
+          <span>Details</span>
+          <ChevronRight size={13} style={{ marginLeft: 2 }} />
         </span>
       </div>
     </article>

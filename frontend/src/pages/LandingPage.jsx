@@ -60,8 +60,8 @@ export default function LandingPage() {
 
   const faqs = [
     {
-      q: 'Is this curriculum official for Eternal University BCA students?',
-      a: 'Yes! The semester-wise subjects, course codes, and descriptions strictly follow the official BCA Hons. with Research syllabus from Eternal University, covering Semesters 1 through 6.'
+      q: 'Is this curriculum official for BCA students?',
+      a: 'Yes! The semester-wise subjects, course codes, and descriptions strictly follow the official BCA Hons. with Research syllabus, covering Semesters 1 through 6.'
     },
     {
       q: 'How do I explore individual subject modules and topics?',
@@ -190,7 +190,7 @@ export default function LandingPage() {
         <div className="landing-hero-content">
           <div className="hero-pill">
             <Sparkles size={14} className="hero-pill-sparkle" />
-            <span>Eternal University · BCA Hons. with Research</span>
+            <span>BCA Hons. with Research</span>
             <span className="hero-pill-badge">Semesters 1—6</span>
           </div>
 
@@ -200,7 +200,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="hero-description">
-            The official academic learning companion for BCA Hons. with Research students at Eternal University.
+            The official academic learning companion for BCA Hons. with Research students.
             Explore your semester-wise syllabus, master code fundamentals,
             test retention with instant quizzes, and stay connected with faculty mentors.
           </p>
@@ -219,7 +219,7 @@ export default function LandingPage() {
           <div className="hero-trust-bar">
             <div className="hero-trust-item">
               <CheckCircle2 size={16} className="hero-trust-icon" />
-              <span>Official Eternal University Syllabus Aligned</span>
+              <span>Official BCA Syllabus Aligned</span>
             </div>
             <div className="hero-trust-item">
               <CheckCircle2 size={16} className="hero-trust-icon" />
@@ -244,7 +244,7 @@ export default function LandingPage() {
               </div>
               <div className="mockup-address-bar">
                 <ShieldCheck size={12} color="#10b981" />
-                <span>classroom.eternal.edu/bca/semester-2/web-dev</span>
+                <span>classroom.edu/bca/semester-2/web-dev</span>
               </div>
             </div>
 
@@ -414,7 +414,7 @@ export default function LandingPage() {
             <p className="section-description">
               General e-learning platforms are either too generic or bloated with distractions.
               Classroom was created to deliver an intentional, focused environment designed around
-              the official computer applications syllabus at Eternal University.
+              the official computer applications syllabus.
             </p>
           </div>
 
@@ -466,17 +466,17 @@ export default function LandingPage() {
             <div className="about-visual-panel">
               <div className="about-panel-badge">
                 <GraduationCap size={15} />
-                <span>ETERNAL UNIVERSITY · BCA HONS.</span>
+                <span>BCA HONS. WITH RESEARCH</span>
               </div>
               <blockquote className="about-panel-quote">
                 "Classroom turned our scattered semester syllabus into an intuitive, calm daily study habit.
                 Students grasp programming fundamentals faster and score significantly higher on semester examinations."
               </blockquote>
               <div className="about-panel-author">
-                <div className="author-avatar">EU</div>
+                <div className="author-avatar">CS</div>
                 <div className="author-info">
                   <strong>Department of Computer Applications</strong>
-                  <span>Eternal University Academic Board</span>
+                  <span>Academic Board</span>
                 </div>
               </div>
             </div>
@@ -693,7 +693,7 @@ export default function LandingPage() {
             <span className="section-eyebrow">Got Questions?</span>
             <h2 className="section-title">Frequently Asked Questions</h2>
             <p className="section-description">
-              Find quick answers about the Eternal University BCA curriculum, course codes, and student access.
+              Find quick answers about the BCA curriculum, course codes, and student access.
             </p>
           </div>
 
@@ -732,7 +732,7 @@ export default function LandingPage() {
           <div className="cta-banner-content">
             <h2 className="cta-banner-title">Start Your Next Semester on the Right Track.</h2>
             <p className="cta-banner-desc">
-              Join Eternal University BCA students and faculty who have turned scattered notes into a structured,
+              Join BCA students and faculty who have turned scattered notes into a structured,
               rewarding path to academic excellence.
             </p>
             <div className="cta-banner-buttons">
@@ -759,7 +759,7 @@ export default function LandingPage() {
                 <span>classroom</span>
               </Link>
               <p className="footer-tagline">
-                The modern learning companion for BCA Hons. with Research students and faculty at Eternal University.
+                The modern learning companion for BCA Hons. with Research students and faculty.
               </p>
             </div>
 
@@ -800,7 +800,7 @@ export default function LandingPage() {
           </div>
 
           <div className="footer-bottom">
-            <span>© 2026 Classroom · Eternal University BCA Hons. with Research. All rights reserved.</span>
+            <span>© 2026 Classroom · BCA Hons. with Research. All rights reserved.</span>
             <button className="footer-back-to-top" onClick={scrollToTop}>
               <ArrowUp size={14} />
               <span>Back to Top</span>

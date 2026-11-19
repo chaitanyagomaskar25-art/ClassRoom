@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-function notFound(req, _res, next) {
+export function notFound(req, _res, next) {
   const error = new Error(`Route not found: ${req.method} ${req.originalUrl}`);
   error.status = 404;
   next(error);
 }
 
-function errorHandler(error, _req, res, _next) {
+export function errorHandler(error, _req, res, _next) {
   let status = error.status || 500;
   let message = error.message || 'Internal server error';
   let details = error.details;
@@ -28,5 +28,3 @@ function errorHandler(error, _req, res, _next) {
     error: { message, ...(details ? { details } : {}) }
   });
 }
-
-module.exports = { notFound, errorHandler };

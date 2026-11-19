@@ -1,0 +1,85 @@
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:7.0
+    container_name: bca_platform_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: bca_student_success
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - bca_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache & Background Queue Service
+  redis:
+    image: redis:7.2-alpine
+    container_name: bca_platform_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - bca_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Node.js + Express Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bca_platform_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGODB_URI: mongodb://mongodb:27017/bca_student_success
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-production-secure-random-jwt-secret-min-32-chars-long}
+      JWT_EXPIRES_IN: 1d
+      CORS_ORIGIN: http://localhost,http://localhost:80,http://localhost:5173
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - bca_network
+
+  # React + Vite Production Frontend (Served via Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bca_platform_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - bca_network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  bca_network:
+    driver: bridge

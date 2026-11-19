@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const semesterSchema = new mongoose.Schema({
   number: { type: Number, required: true, unique: true, min: 1, max: 8 },
@@ -7,4 +7,4 @@ const semesterSchema = new mongoose.Schema({
   order: { type: Number, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Semester', semesterSchema);
+export default mongoose.model('Semester', semesterSchema);

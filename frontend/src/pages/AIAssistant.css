@@ -1,0 +1,568 @@
+.ai-hub-page {
+  padding: 1.5rem 2rem 4rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.ai-hub-header {
+  margin-bottom: 2rem;
+}
+
+.ai-hub-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 0.5rem;
+}
+
+.ai-sparkle-icon {
+  color: #7c3aed;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.15));
+  padding: 6px;
+  border-radius: 0.65rem;
+}
+
+.ai-hub-subtitle {
+  color: var(--text-secondary, #64748b);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Tabs */
+.ai-tabs-nav {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--card-bg, #ffffff);
+  padding: 0.4rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  margin-top: 1.5rem;
+  overflow-x: auto;
+}
+
+.ai-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #64748b);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.ai-tab-btn:hover {
+  color: var(--text-primary, #0f172a);
+  background: var(--hover-bg, #f1f5f9);
+}
+
+.ai-tab-btn.active {
+  background: #7c3aed;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+}
+
+/* Loading & Error */
+.ai-loading-box,
+.ai-error-box {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.ai-spinner {
+  width: 42px;
+  height: 42px;
+  border: 3px solid rgba(124, 58, 237, 0.2);
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   TAB 1: AI LEARNING MENTOR
+   ========================================================= */
+.mentor-chat-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mentor-input-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.mentor-modes-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.mode-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 2rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-chip.active {
+  background: rgba(124, 58, 237, 0.1);
+  border-color: #7c3aed;
+  color: #7c3aed;
+}
+
+.mentor-context-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.context-select {
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background: var(--card-bg, #ffffff);
+  color: var(--text-primary, #0f172a);
+  font-size: 0.85rem;
+}
+
+.mentor-prompt-textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 0.85rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary, #0f172a);
+  background: var(--card-bg, #ffffff);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.mentor-prompt-textarea:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.mentor-extra-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .mentor-extra-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.extra-textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 0.65rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 0.5rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  background: var(--hover-bg, #f8fafc);
+  box-sizing: border-box;
+}
+
+.quick-prompts-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.quick-chip {
+  padding: 0.3rem 0.75rem;
+  background: var(--hover-bg, #f1f5f9);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  font-size: 0.775rem;
+  color: var(--text-secondary, #475569);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-chip:hover {
+  background: rgba(124, 58, 237, 0.08);
+  color: #7c3aed;
+}
+
+.btn-ask-mentor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.6rem;
+  background: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 0.65rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 1.25rem;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-ask-mentor:hover {
+  background: #6d28d9;
+}
+
+.btn-ask-mentor:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mentor Response Output */
+.mentor-response-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.response-header {
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.response-context-tag {
+  font-size: 0.775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #7c3aed;
+  letter-spacing: 0.03em;
+}
+
+.response-title {
+  margin: 0.35rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+}
+
+.response-body-prose {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-primary, #1e293b);
+  white-space: pre-wrap;
+  margin-bottom: 1.5rem;
+}
+
+.response-takeaways-box {
+  background: rgba(124, 58, 237, 0.05);
+  border-left: 3px solid #7c3aed;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.takeaways-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin: 0 0 0.5rem;
+}
+
+.takeaways-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text-primary, #1e293b);
+}
+
+.takeaways-list li {
+  margin-bottom: 0.35rem;
+}
+
+.response-code-wrap {
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 0.65rem;
+  padding: 1.25rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.debug-alert-card {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.65rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.debug-alert-title {
+  color: #991b1b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem;
+}
+
+/* =========================================================
+   TAB 2: AI WEAKNESS ANALYZER
+   ========================================================= */
+.weakness-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.diagnostic-hero-banner {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.diagnostic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.badge-needs-attention { background: #fee2e2; color: #b91c1c; }
+.badge-moderate { background: #fef3c7; color: #b45309; }
+.badge-good { background: #dcfce7; color: #15803d; }
+
+.weak-topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+.weak-topic-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.weak-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.weak-topic-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 0.25rem;
+}
+
+.weak-subject-sub {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 0.75rem;
+}
+
+.weak-metrics-bar {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+  margin: 0.75rem 0;
+  padding: 0.5rem 0;
+  border-top: 1px dashed var(--border-color, #e2e8f0);
+  border-bottom: 1px dashed var(--border-color, #e2e8f0);
+}
+
+.btn-practice-weak {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  background: #7c3aed;
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+  margin-top: auto;
+  border: none;
+  cursor: pointer;
+}
+
+/* =========================================================
+   TAB 3: PERSONALIZED AI ROADMAP
+   ========================================================= */
+.roadmap-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.roadmap-config-bar {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.config-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  text-transform: uppercase;
+}
+
+.timeline-week-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.timeline-week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.week-badge {
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.1);
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.4rem;
+}
+
+.daily-tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.daily-task-box {
+  background: var(--hover-bg, #f8fafc);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.task-day {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #7c3aed;
+}
+
+.task-text {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+  margin: 0.2rem 0;
+}
+
+.task-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
+}
+
+/* =========================================================
+   TAB 4: AI CAREER ADVISOR
+   ========================================================= */
+.career-phases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.career-phase-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-left: 4px solid #7c3aed;
+  border-radius: 0 0.85rem 0.85rem 0;
+  padding: 1.25rem 1.5rem;
+}
+
+.phase-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.phase-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+}
+
+.phase-focus {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 0.75rem;
+}

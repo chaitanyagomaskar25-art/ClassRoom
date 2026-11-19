@@ -1,14 +1,29 @@
 import { useState, useMemo, useEffect } from 'react';
-import { BookOpen, CheckCircle, GraduationCap, Layers, Search, Sparkles, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle, GraduationCap, Layers, Search, Sparkles, X } from 'lucide-react';
 import { semestersList, semesterColors, universityInfo } from '../data/curriculumData.js';
 import SubjectCard from './SubjectCard.jsx';
 import SubjectModal from './SubjectModal.jsx';
 import './SemesterSubjectsSection.css';
 
 export default function SemesterSubjectsSection() {
-  const [selectedSemester, setSelectedSemester] = useState('all');
+  const navigate = useNavigate();
+  const [selectedSemester, setSelectedSemester] = useState('1');
   const [searchQuery, setSearchQuery] = useState('');
   const [modalData, setModalData] = useState(null);
+
+  const handleStudyClick = (subject, semesterNum) => {
+    const sId = subject.code || subject.id || subject._id;
+    navigate(`/learning/${encodeURIComponent(sId)}?semester=${encodeURIComponent(semesterNum)}&subject=${encodeURIComponent(sId)}&name=${encodeURIComponent(subject.name)}&code=${encodeURIComponent(subject.code || '')}`, {
+      state: {
+        semesterId: semesterNum,
+        subjectId: sId,
+        subjectName: subject.name,
+        courseCode: subject.code,
+        subject
+      }
+    });
+  };
 
   useEffect(() => {
     const handleSelectSem = (e) => {
@@ -59,16 +74,15 @@ export default function SemesterSubjectsSection() {
     return filteredSemesters.reduce((acc, sem) => acc + sem.subjects.length, 0);
   }, [filteredSemesters]);
 
-  const handleTabClick = (semNum) => {
+  const handleTabClick = (semNum, shouldScroll = false) => {
     setSelectedSemester(semNum);
-    // Smooth scroll to the section if choosing a specific semester while in "all" or changing
-    if (semNum !== 'all') {
+    if (shouldScroll) {
       setTimeout(() => {
-        const el = document.getElementById(`semester-section-${semNum}`);
+        const el = document.getElementById('curriculum');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      }, 50);
+      }, 30);
     }
   };
 
@@ -123,25 +137,19 @@ export default function SemesterSubjectsSection() {
         {/* Interactive Controls: Semester Tabs & Search Filter */}
         <div className="semester-controls-bar">
           <div className="semester-tabs-container">
-            <button
-              className={`sem-nav-tab ${selectedSemester === 'all' ? 'active' : ''}`}
-              onClick={() => handleTabClick('all')}
-            >
-              <span>All Semesters</span>
-              <span className="sem-tab-count">29</span>
-            </button>
-
             {semestersList.map((sem) => {
               const colors = semesterColors[sem.semester];
               const isActive = selectedSemester === String(sem.semester);
               return (
                 <button
                   key={sem.semester}
+                  type="button"
                   className={`sem-nav-tab ${isActive ? 'active' : ''}`}
                   onClick={() => handleTabClick(String(sem.semester))}
                   style={{
                     '--tab-accent': colors.primary,
                   }}
+                  aria-pressed={isActive}
                 >
                   <span className="sem-dot" style={{ backgroundColor: colors.primary }} />
                   <span>Sem {sem.semester}</span>
@@ -149,6 +157,18 @@ export default function SemesterSubjectsSection() {
                 </button>
               );
             })}
+
+            <button
+              type="button"
+              className={`sem-nav-tab all-sem-tab ${selectedSemester === 'all' ? 'active' : ''}`}
+              onClick={() => handleTabClick('all')}
+              aria-pressed={selectedSemester === 'all'}
+              title="View all 29 subjects across all 6 semesters"
+            >
+              <Layers size={14} style={{ marginRight: 4 }} />
+              <span>All 6 Semesters</span>
+              <span className="sem-tab-count">29</span>
+            </button>
           </div>
 
           <div className="semester-search-wrapper">
@@ -249,6 +269,7 @@ export default function SemesterSubjectsSection() {
                       semester={sem.semester}
                       colors={colors}
                       onSelect={(sub) => handleCardClick(sub, sem.semester)}
+                      onStudy={(sub) => handleStudyClick(sub, sem.semester)}
                     />
                   ))}
                 </div>
@@ -256,6 +277,60 @@ export default function SemesterSubjectsSection() {
             );
           })}
         </div>
+
+        {/* Semester Stepper & View All Switcher */}
+        {selectedSemester !== 'all' && filteredSemesters.length > 0 && (
+          <div className="semester-pagination-bar">
+            <button
+              type="button"
+              className="sem-page-btn prev"
+              disabled={Number(selectedSemester) <= 1}
+              onClick={() => handleTabClick(String(Number(selectedSemester) - 1), true)}
+              title={Number(selectedSemester) > 1 ? `Go to Semester ${Number(selectedSemester) - 1}` : 'First semester'}
+            >
+              <ArrowLeft size={16} />
+              <span>Previous Semester ({Number(selectedSemester) > 1 ? `Sem ${Number(selectedSemester) - 1}` : 'Start'})</span>
+            </button>
+
+            <button
+              type="button"
+              className="sem-view-all-link"
+              onClick={() => handleTabClick('all')}
+              title="Show all 29 subjects across all 6 semesters"
+            >
+              <Layers size={15} />
+              <span>Show All 6 Semesters (29 Subjects)</span>
+            </button>
+
+            <button
+              type="button"
+              className="sem-page-btn next"
+              disabled={Number(selectedSemester) >= 6}
+              onClick={() => handleTabClick(String(Number(selectedSemester) + 1), true)}
+              title={Number(selectedSemester) < 6 ? `Go to Semester ${Number(selectedSemester) + 1}` : 'Final semester'}
+            >
+              <span>Next Semester ({Number(selectedSemester) < 6 ? `Sem ${Number(selectedSemester) + 1}` : 'Final'})</span>
+              <ArrowRight size={16} />
+            </button>
+          </div>
+        )}
+
+        {selectedSemester === 'all' && filteredSemesters.length > 0 && (
+          <div className="semester-pagination-bar all-mode">
+            <div className="all-mode-text">
+              <CheckCircle size={15} style={{ color: 'var(--color-primary, #7864c8)' }} />
+              <span>Currently showing all 6 semesters (29 core subjects)</span>
+            </div>
+            <button
+              type="button"
+              className="sem-view-all-link return-single"
+              onClick={() => handleTabClick('1', true)}
+            >
+              <span>Switch to Semester-by-Semester View (Sem 1)</span>
+              <ArrowRight size={15} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Modal Dialog */}

@@ -9,4 +9,4 @@ function gradeQuiz(questions, answers) {
   };
 }
 
-module.exports = gradeQuiz;
+export default gradeQuiz;

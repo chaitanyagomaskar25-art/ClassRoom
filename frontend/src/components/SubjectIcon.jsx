@@ -59,7 +59,7 @@ const iconMap = {
   GraduationCap,
 };
 
-export default function SubjectIcon({ name, size = 20, className = '' }) {
-  const IconComponent = iconMap[name] || BookOpen;
+export default function SubjectIcon({ name, iconName, size = 20, className = '' }) {
+  const IconComponent = iconMap[name || iconName] || BookOpen;
   return <IconComponent size={size} className={className} />;
 }

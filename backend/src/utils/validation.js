@@ -1,4 +1,4 @@
-const HttpError = require('./httpError');
+import HttpError from './httpError.js';
 
 function validate(schema, target = 'body') {
   return (req, res, next) => {
@@ -11,4 +11,4 @@ function validate(schema, target = 'body') {
   };
 }
 
-module.exports = validate;
+export default validate;

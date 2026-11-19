@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const env = require('./env');
+import mongoose from 'mongoose';
+import env from './env.js';
 
 async function connectDatabase() {
   await mongoose.connect(env.MONGODB_URI, {
@@ -8,4 +8,4 @@ async function connectDatabase() {
   console.log(`MongoDB connected: ${mongoose.connection.host}`);
 }
 
-module.exports = connectDatabase;
+export default connectDatabase;

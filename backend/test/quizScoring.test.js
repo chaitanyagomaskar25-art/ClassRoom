@@ -1,6 +1,6 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const gradeQuiz = require('../src/utils/quizScoring');
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import gradeQuiz from '../src/utils/quizScoring.js';
 
 const questions = [{ correctOption: 1 }, { correctOption: 0 }, { correctOption: 2 }];
 

@@ -1,19 +1,20 @@
-const bcrypt = require('bcryptjs');
-const connectDatabase = require('./config/database');
-const User = require('./models/User');
-const Semester = require('./models/Semester');
-const Subject = require('./models/Subject');
-const Topic = require('./models/Topic');
-const Lesson = require('./models/Lesson');
-const LessonProgress = require('./models/LessonProgress');
-const QuizAttempt = require('./models/QuizAttempt');
-const mongoose = require('mongoose');
+import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
+import connectDatabase from './config/database.js';
+import User from './models/User.js';
+import Semester from './models/Semester.js';
+import Subject from './models/Subject.js';
+import Topic from './models/Topic.js';
+import Lesson from './models/Lesson.js';
+import LessonProgress from './models/LessonProgress.js';
+import QuizAttempt from './models/QuizAttempt.js';
 
 const accounts = {
+  scrum: { name: 'Vikram Scrum Lead', email: 'scrum@demo.local', password: 'Scrum123!' },
   mentor: { name: 'Asha Mentor', email: 'mentor@demo.local', password: 'Mentor123!' },
   students: [
-    { name: 'Aarav Student', email: 'student@demo.local', password: 'Student123!', enrollmentNumber: 'BCA2026001' },
-    { name: 'Mira Student', email: 'student2@demo.local', password: 'Student123!', enrollmentNumber: 'BCA2026002' }
+    { name: 'Aarav Student', email: 'student@demo.local', password: 'Student123!', enrollmentNumber: 'BCA2026001', semester: 1 },
+    { name: 'Mira Student', email: 'student2@demo.local', password: 'Student123!', enrollmentNumber: 'BCA2026002', semester: 2 }
   ]
 };
 
@@ -29,6 +30,7 @@ async function upsertAccount(account, role, mentorId = null) {
 
 async function seed() {
   await connectDatabase();
+  const scrum = await upsertAccount(accounts.scrum, 'scrum');
   const mentor = await upsertAccount(accounts.mentor, 'mentor');
   const students = await Promise.all(accounts.students.map((account) => upsertAccount(account, 'student', mentor.id)));
   await Promise.all([

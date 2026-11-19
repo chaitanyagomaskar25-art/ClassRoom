@@ -476,14 +476,65 @@
   gap: 3px;
 }
 
-.subject-badge-category {
+.subject-badge-category,
+.subject-badge-nature {
   font-size: 10.5px;
-  font-weight: 600;
-  color: #717385;
-  background: #edf0f8;
-  padding: 2px 7px;
+  font-weight: 700;
+  color: var(--brand-700, #4338ca);
+  background: var(--brand-50, #eef2ff);
+  border: 1px solid var(--brand-200, #c7d2fe);
+  padding: 2px 8px;
   border-radius: 6px;
   white-space: nowrap;
+  letter-spacing: 0.4px;
+}
+
+.subject-card-metrics {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.subject-metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-surface-subtle, #f1f3fa);
+  border: 1px solid var(--border-light, #e4e6f2);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  color: var(--text-secondary, #525567);
+  font-weight: 600;
+}
+
+.subject-metric-pill .metric-tag {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted, #7c7f96);
+  text-transform: uppercase;
+}
+
+.subject-metric-pill.credits {
+  background: var(--emerald-50, #ecfdf5);
+  border-color: var(--emerald-200, #a7f3d0);
+  color: var(--emerald-700, #047857);
+}
+
+.subject-card-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--card-accent, #6366f1);
+  transition: all 0.18s ease;
+}
+
+.subject-card-item:hover .subject-card-view-btn {
+  text-decoration: underline;
 }
 
 .subject-card-content {
@@ -531,6 +582,43 @@
   border-top: 1px solid #eeeff5;
   padding-top: 12px;
   margin-top: auto;
+  gap: 8px;
+}
+
+.subject-card-study-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card-accent, #4f46e5);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+}
+
+.subject-card-study-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+}
+
+.subject-card-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+  transition: color 0.18s ease;
+}
+
+.subject-card-item:hover .subject-card-view-btn {
+  color: var(--card-accent, #4f46e5);
 }
 
 .subject-card-hint {
@@ -1111,13 +1199,35 @@
   border-color: #2d3047;
 }
 
-[data-theme='dark'] .subject-badge-category {
-  background: #13141f;
-  color: var(--text-secondary, #a7aabf);
+[data-theme='dark'] .subject-badge-category,
+[data-theme='dark'] .subject-badge-nature {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.35);
+  color: #a5b4fc;
+}
+
+[data-theme='dark'] .subject-metric-pill {
+  background: #171929;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #b5b8cf;
+}
+
+[data-theme='dark'] .subject-metric-pill .metric-tag {
+  color: #7b7f99;
+}
+
+[data-theme='dark'] .subject-metric-pill.credits {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
 }
 
 [data-theme='dark'] .subject-card-footer {
   border-top-color: var(--border-subtle, #25283d);
+}
+
+[data-theme='dark'] .subject-card-view-btn {
+  color: var(--text-muted, #94a3b8);
 }
 
 [data-theme='dark'] .subject-card-hint {
@@ -1179,4 +1289,163 @@
 [data-theme='dark'] .subject-modal-btn-secondary:hover {
   background: #2d304c;
 }
+
+/* ==========================================================================
+   Semester Stepper & View All Switcher Bar
+   ========================================================================== */
+
+.semester-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #e1e3ed;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(18, 20, 30, 0.04);
+  flex-wrap: wrap;
+}
+
+.sem-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface-subtle, #f4f5fb);
+  border: 1px solid var(--border-subtle, #e1e3ed);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary, #1e1f2b);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sem-page-btn:hover:not(:disabled) {
+  background: var(--color-primary, #7864c8);
+  border-color: var(--color-primary, #7864c8);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(120, 100, 200, 0.22);
+}
+
+.sem-page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sem-view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px dashed var(--color-primary, #7864c8);
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary, #7864c8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sem-view-all-link:hover {
+  background: var(--color-primary-light, #f3f0fb);
+  border-style: solid;
+  transform: translateY(-1px);
+}
+
+.semester-pagination-bar.all-mode {
+  justify-content: space-between;
+  background: var(--bg-surface-subtle, #f7f8fd);
+  border: 1px solid var(--border-subtle, #e1e3ed);
+}
+
+.all-mode-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-secondary, #555768);
+}
+
+.sem-view-all-link.return-single {
+  background: #ffffff;
+  border: 1px solid var(--color-primary, #7864c8);
+}
+
+.sem-view-all-link.return-single:hover {
+  background: var(--color-primary, #7864c8);
+  color: #ffffff;
+}
+
+/* Dark Mode Overrides for Stepper Bar */
+[data-theme='dark'] .semester-pagination-bar {
+  background: var(--bg-card, #161724);
+  border-color: var(--border-subtle, #25283d);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .sem-page-btn {
+  background: var(--bg-surface-subtle, #1a1c2a);
+  border-color: var(--border-subtle, #25283d);
+  color: var(--text-primary, #f2f3f8);
+}
+
+[data-theme='dark'] .sem-page-btn:hover:not(:disabled) {
+  background: var(--color-primary, #9482e6);
+  border-color: var(--color-primary, #9482e6);
+  color: #0c0d14;
+}
+
+[data-theme='dark'] .sem-view-all-link {
+  border-color: var(--color-primary, #9482e6);
+  color: var(--color-primary, #9482e6);
+}
+
+[data-theme='dark'] .sem-view-all-link:hover {
+  background: rgba(148, 130, 230, 0.16);
+}
+
+[data-theme='dark'] .semester-pagination-bar.all-mode {
+  background: var(--bg-card, #161724);
+  border-color: var(--border-subtle, #25283d);
+}
+
+[data-theme='dark'] .all-mode-text {
+  color: var(--text-secondary, #a7aabf);
+}
+
+[data-theme='dark'] .sem-view-all-link.return-single {
+  background: #1a1c2a;
+}
+
+[data-theme='dark'] .sem-view-all-link.return-single:hover {
+  background: var(--color-primary, #9482e6);
+  color: #0c0d14;
+}
+
+@media (max-width: 768px) {
+  .semester-pagination-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .sem-page-btn,
+  .sem-view-all-link {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .all-mode-text {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 

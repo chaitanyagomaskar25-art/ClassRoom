@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const questionSchema = new mongoose.Schema({
   prompt: { type: String, required: true },
@@ -26,4 +26,4 @@ const lessonSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 lessonSchema.index({ topicId: 1, order: 1 });
-module.exports = mongoose.model('Lesson', lessonSchema);
+export default mongoose.model('Lesson', lessonSchema);

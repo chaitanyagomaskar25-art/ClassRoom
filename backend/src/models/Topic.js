@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const topicSchema = new mongoose.Schema({
   subjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject', required: true, index: true },
@@ -8,4 +8,4 @@ const topicSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 topicSchema.index({ subjectId: 1, order: 1 });
-module.exports = mongoose.model('Topic', topicSchema);
+export default mongoose.model('Topic', topicSchema);

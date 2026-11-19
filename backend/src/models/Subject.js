@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const subjectSchema = new mongoose.Schema({
   semesterId: { type: mongoose.Schema.Types.ObjectId, ref: 'Semester', required: true, index: true },
@@ -9,4 +9,4 @@ const subjectSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 subjectSchema.index({ semesterId: 1, code: 1 }, { unique: true });
-module.exports = mongoose.model('Subject', subjectSchema);
+export default mongoose.model('Subject', subjectSchema);
