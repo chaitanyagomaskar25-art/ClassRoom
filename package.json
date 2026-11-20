@@ -1,0 +1,27 @@
+{
+  "name": "students_progress_important",
+  "version": "1.0.0",
+  "description": "A semester-based learning platform for BCA students and mentors, with administrator curriculum tools planned for a later phase. The current V1 scope covers authentication, curriculum, lessons, quizzes, progress tracking, student learning dashboards, and mentor student monitoring. AI, resume tools, career planning, and gamification are intentionally left for later phases in the project specification.",
+  "main": "index.js",
+
+  "scripts": {
+    "test:e2e": "playwright test -c tests/playwright.config.js",
+    "test:e2e:ui": "playwright test -c tests/playwright.config.js --ui",
+    "test:e2e:report": "playwright show-report tests/playwright-report"
+  }
+,  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaitanyagomaskar25-art/ClassRoom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaitanyagomaskar25-art/ClassRoom/issues"
+  },
+  "homepage": "https://github.com/chaitanyagomaskar25-art/ClassRoom#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.6"
+  }
+}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
@@ -223,6 +223,7 @@ export default function Learning() {
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeLessonContent, setActiveLessonContent] = useState(null);
   const [activeLessonLoading, setActiveLessonLoading] = useState(false);
+  const hasHandledAutoOpenRef = useRef(false);
 
   // Lesson interactive learning states (quiz, hints, copy code, tab)
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -931,13 +932,26 @@ export default function Learning() {
     }
   };
 
-  const handleCloseLesson = () => {
+  const handleCloseLesson = useCallback(() => {
+    hasHandledAutoOpenRef.current = true;
     setActiveLesson(null);
     setActiveLessonContent(null);
     setQuizAnswers({});
     setRevealedHints({});
     setCopiedCode(false);
-  };
+
+    // Clear auto-open query parameters from URL so it does not immediately reopen
+    const paramLesson = searchParams.get('lesson');
+    const paramLessonId = searchParams.get('lessonId');
+    const paramOpen = searchParams.get('open');
+    if (paramLesson || paramLessonId || paramOpen) {
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete('lesson');
+      nextParams.delete('lessonId');
+      nextParams.delete('open');
+      setSearchParams(nextParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   // Resolve current active in-progress unfinished lesson
   const activeInProgressLesson = useMemo(() => {
@@ -1272,17 +1286,45 @@ export default function Learning() {
     }
   };
 
+  // Reset auto-open flag if URL parameter changes to a new lesson
+  const currentParamLessonId = searchParams.get('lesson') || searchParams.get('lessonId');
+  const prevParamLessonRef = useRef('');
+  useEffect(() => {
+    if (currentParamLessonId && currentParamLessonId !== prevParamLessonRef.current) {
+      prevParamLessonRef.current = currentParamLessonId;
+      hasHandledAutoOpenRef.current = false;
+    }
+  }, [currentParamLessonId]);
+
   // Auto-open requested lesson from query parameters (e.g. from Continue Learning CTA)
   useEffect(() => {
-    const paramLessonId = searchParams.get('lesson') || searchParams.get('lessonId');
-    const shouldOpen = searchParams.get('open') === 'true' || Boolean(paramLessonId);
-    if (paramLessonId && allSubjectLessons.length > 0 && !activeLesson && shouldOpen) {
-      const target = allSubjectLessons.find((l) => l.lessonId === paramLessonId);
+    const shouldOpen = searchParams.get('open') === 'true' || Boolean(currentParamLessonId);
+    if (
+      currentParamLessonId &&
+      !hasHandledAutoOpenRef.current &&
+      allSubjectLessons.length > 0 &&
+      !activeLesson &&
+      shouldOpen
+    ) {
+      const target = allSubjectLessons.find((l) => l.lessonId === currentParamLessonId);
       if (target) {
+        hasHandledAutoOpenRef.current = true;
         handleOpenLesson(target);
       }
     }
-  }, [searchParams, allSubjectLessons, activeLesson]);
+  }, [searchParams, allSubjectLessons, activeLesson, currentParamLessonId]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    if (!activeLesson) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleCloseLesson();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeLesson, handleCloseLesson]);
 
   // Advance to next lesson inside modal
   const handleAdvanceToNextLesson = () => {

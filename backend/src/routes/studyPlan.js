@@ -217,13 +217,25 @@ router.get(
   authenticate,
   allowRoles('student'),
   asyncHandler(async (req, res) => {
-    const subjectCode = req.query.subject || req.query.subjectCode || 'all';
+    const rawSubjectCode = req.query.subject || req.query.subjectCode || 'all';
     const semesterNum = Number(req.user.semester || 1);
+
+    // If a specific subject is requested, ensure it belongs to the student's enrolled semester
+    let subjectCode = rawSubjectCode;
+    if (subjectCode !== 'all') {
+      const foundSub = findSubjectByCodeOrId(subjectCode);
+      if (foundSub && foundSub.semester && Number(foundSub.semester) !== semesterNum) {
+        // Enforce enrolled semester: fall back to all enrolled subjects
+        subjectCode = 'all';
+      }
+    }
 
     let plan = await StudyPlan.findOne({ studentId: req.user._id, subjectCode });
 
-    // If no plan yet, auto-create a default 30-day realistic plan
-    if (!plan) {
+    // If no plan yet OR the existing plan was generated for a different semester, regenerate for enrolled semester
+    const needsRegen = !plan || Number(plan.semester) !== semesterNum;
+
+    if (needsRegen) {
       const targetDate = new Date();
       targetDate.setDate(targetDate.getDate() + 30);
 
@@ -240,18 +252,30 @@ router.get(
           ? { name: `Semester ${semesterNum} Comprehensive Study Plan` }
           : findSubjectByCodeOrId(subjectCode) || { name: 'Subject Study Plan' };
 
-      plan = await StudyPlan.create({
-        studentId: req.user._id,
-        subjectCode,
-        subjectName: subInfo.name,
-        semester: semesterNum,
-        targetDate,
-        dailyMinutes: 60,
-        startDate: new Date(),
-        schedule: generated.schedule,
-        weeklyGoals: generated.weeklyGoals,
-        reminders: generated.reminders
-      });
+      if (plan) {
+        plan.subjectName = subInfo.name;
+        plan.semester = semesterNum;
+        plan.targetDate = targetDate;
+        plan.dailyMinutes = 60;
+        plan.startDate = new Date();
+        plan.schedule = generated.schedule;
+        plan.weeklyGoals = generated.weeklyGoals;
+        plan.reminders = generated.reminders;
+        await plan.save();
+      } else {
+        plan = await StudyPlan.create({
+          studentId: req.user._id,
+          subjectCode,
+          subjectName: subInfo.name,
+          semester: semesterNum,
+          targetDate,
+          dailyMinutes: 60,
+          startDate: new Date(),
+          schedule: generated.schedule,
+          weeklyGoals: generated.weeklyGoals,
+          reminders: generated.reminders
+        });
+      }
     }
 
     // Cross-check actual completions in case student completed lessons elsewhere
@@ -345,8 +369,18 @@ router.post(
   allowRoles('student'),
   validate(configurePlanSchema),
   asyncHandler(async (req, res) => {
-    const { subjectCode, targetDate, dailyMinutes, semester } = req.body;
-    const semesterNum = Number(semester || req.user.semester || 1);
+    const { subjectCode, targetDate, dailyMinutes } = req.body;
+    const semesterNum = Number(req.user.semester || 1);
+
+    if (subjectCode !== 'all') {
+      const foundSub = findSubjectByCodeOrId(subjectCode);
+      if (foundSub && foundSub.semester && Number(foundSub.semester) !== semesterNum) {
+        throw new HttpError(
+          403,
+          `🔒 Locked: "${foundSub.name}" belongs to Semester ${foundSub.semester}. You are enrolled in Semester ${semesterNum}, so you can only generate study plans for Semester ${semesterNum} courses.`
+        );
+      }
+    }
 
     const targetDateObj = new Date(targetDate);
     if (isNaN(targetDateObj.getTime())) {

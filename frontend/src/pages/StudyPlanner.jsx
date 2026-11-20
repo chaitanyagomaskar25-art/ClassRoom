@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { api, getErrorMessage, unwrap } from '../services/api.js';
 import { EmptyState, ErrorState, LoadingState } from '../components/ContentState.jsx';
-import { allSubjects, semestersList } from '../data/curriculumData.js';
+import { semestersList } from '../data/curriculumData.js';
 
 function formatDateInput(date) {
   const d = new Date(date);
@@ -44,8 +44,36 @@ export default function StudyPlanner() {
   const activeSemesterNum = Number(user.semester || 1);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Enforce enrolled semester: derive subjects strictly for the active semester
+  const currentSemesterPlan = useMemo(() => {
+    return semestersList.find((s) => s.semester === activeSemesterNum) || semestersList[0];
+  }, [activeSemesterNum]);
+
+  const semesterSubjects = useMemo(() => {
+    return currentSemesterPlan?.subjects || [];
+  }, [currentSemesterPlan]);
+
   const initialSubjectParam = searchParams.get('subject') || searchParams.get('subjectCode') || 'all';
-  const [selectedSubjectCode, setSelectedSubjectCode] = useState(initialSubjectParam);
+  const [selectedSubjectCode, setSelectedSubjectCode] = useState(() => {
+    if (initialSubjectParam === 'all') return 'all';
+    const isEnrolledSub = semesterSubjects.some(
+      (s) => s.code === initialSubjectParam || s.id === initialSubjectParam
+    );
+    return isEnrolledSub ? initialSubjectParam : 'all';
+  });
+
+  // Keep selectedSubjectCode strictly locked to the student's enrolled semester
+  useEffect(() => {
+    if (selectedSubjectCode !== 'all') {
+      const match = semesterSubjects.some(
+        (s) => s.code === selectedSubjectCode || s.id === selectedSubjectCode
+      );
+      if (!match) {
+        setSelectedSubjectCode('all');
+        setSearchParams({});
+      }
+    }
+  }, [activeSemesterNum, semesterSubjects, selectedSubjectCode, setSearchParams]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -65,7 +93,7 @@ export default function StudyPlanner() {
   // Active view filter: 'today', 'upcoming', 'all', 'history'
   const [scheduleFilter, setScheduleFilter] = useState('upcoming');
 
-  // Load study plan from backend
+  // Load study plan from backend (scoped strictly to enrolled semester)
   const loadPlan = useCallback(async (code = selectedSubjectCode) => {
     setLoading(true);
     setError('');
@@ -73,7 +101,7 @@ export default function StudyPlanner() {
       setLoading(false);
     }, 5000);
     try {
-      const response = await api.get(`/study-plan?subjectCode=${code}`);
+      const response = await api.get(`/study-plan?subjectCode=${code}&semester=${activeSemesterNum}`);
       const data = unwrap(response);
       setPlanData(data);
       if (data?.plan?.targetDate) {
@@ -88,7 +116,7 @@ export default function StudyPlanner() {
       clearTimeout(safetyTimer);
       setLoading(false);
     }
-  }, [selectedSubjectCode]);
+  }, [selectedSubjectCode, activeSemesterNum]);
 
   useEffect(() => {
     loadPlan(selectedSubjectCode);
@@ -130,7 +158,8 @@ export default function StudyPlanner() {
     setActionMessage('');
     try {
       const response = await api.post('/study-plan/reschedule', {
-        subjectCode: selectedSubjectCode
+        subjectCode: selectedSubjectCode,
+        semester: activeSemesterNum
       });
       const data = unwrap(response);
       setActionMessage(
@@ -226,9 +255,6 @@ export default function StudyPlanner() {
     return Object.entries(map).sort(([a], [b]) => (scheduleFilter === 'history' ? b.localeCompare(a) : a.localeCompare(b)));
   }, [scheduleFilter, upcomingSchedule, plan, completionHistory]);
 
-  const currentSemesterPlan = semestersList.find((s) => s.semester === activeSemesterNum) || semestersList[0];
-  const semesterSubjects = currentSemesterPlan?.subjects || [];
-
   // Days remaining calculation
   const daysRemaining = useMemo(() => {
     if (!plan?.targetDate) return 30;
@@ -241,18 +267,36 @@ export default function StudyPlanner() {
       {/* 1. Header Section with Subject Selector & Actions */}
       <header className="page-heading">
         <div className="page-heading-left">
-          <span className="eyebrow">
-            <CalendarClock size={13} />
-            <span>Personalized Study Planning Engine</span>
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            <span className="eyebrow" style={{ margin: 0 }}>
+              <CalendarClock size={13} />
+              <span>Personalized Study Planning Engine</span>
+            </span>
+            <span
+              style={{
+                backgroundColor: 'rgba(99, 102, 241, 0.12)',
+                color: '#4f46e5',
+                fontSize: '11.5px',
+                fontWeight: 800,
+                padding: '3px 9px',
+                borderRadius: '6px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}
+            >
+              <GraduationCap size={13} />
+              <span>Semester {activeSemesterNum} Enrolled</span>
+            </span>
+          </div>
           <h1>Interactive Study Planner</h1>
           <p>
-            Dynamically generated daily tasks, weekly milestones, and unit revision sessions tailored to your actual learning progress.
+            Dynamically generated daily tasks, weekly milestones, and unit revision sessions tailored strictly to your actual learning progress in <strong>Semester {activeSemesterNum}</strong>.
           </p>
         </div>
 
         <div className="study-planner-header-actions">
-          {/* Subject Filter Dropdown */}
+          {/* Subject Filter Dropdown - Scoped Strictly to Enrolled Semester */}
           <div className="planner-subject-select-wrap">
             <select
               className="planner-subject-select"
@@ -260,10 +304,10 @@ export default function StudyPlanner() {
               onChange={(e) => handleSubjectChange(e.target.value)}
               aria-label="Select subject to plan"
             >
-              <option value="all">Semester {activeSemesterNum} (All Subjects)</option>
-              {allSubjects.map((sub) => (
+              <option value="all">Semester {activeSemesterNum} (All Courses)</option>
+              {semesterSubjects.map((sub) => (
                 <option key={sub.code || sub.id} value={sub.code}>
-                  Sem {sub.semester} · {sub.name} ({sub.code})
+                  {sub.name} ({sub.code})
                 </option>
               ))}
             </select>

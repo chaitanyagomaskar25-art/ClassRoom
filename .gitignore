@@ -7,3 +7,10 @@ coverage/
 .DS_Store
 backend/logs/
 backend/uploads/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
